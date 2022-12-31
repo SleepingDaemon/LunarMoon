@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: TerrainLayerPalette
   m_EditorClassIdentifier: 
   PaletteLayers:
-  - {fileID: 0}
+  - {fileID: 8574412962073106934, guid: 0c13904eb8faa754497f8ee6087e4fd6, type: 2}
+  - {fileID: 8574412962073106934, guid: 6445b64d66fe29046a1440e1e1d3a483, type: 2}
+  - {fileID: 8574412962073106934, guid: 439f35530597164409064815ef24cfdf, type: 2}
+  - {fileID: 8574412962073106934, guid: 670fa90bd42dcce44b2dd840fc319c4a, type: 2}
+  - {fileID: 8574412962073106934, guid: 421dd890b6c09da4e89d4e6d527c44bc, type: 2}
