@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df915c71758a93c4595cbd709bd79522, type: 3}
+  m_Name: Rocks_Basic
+  m_EditorClassIdentifier: 
+  target: 3
+  maskFactorMin: 0.2
+  maskFactorMax: 1
+  blockTagLayer: 
+  invertTagLayer: 0
+  slopeMin: 0
+  slopeMax: 30
+  heightMin: 0
+  heightMax: 10000
+  spacing: 6
+  seed: 1
+  selfCulling: 1
+  scatterStack: []
+  detailStack:
+  - detailPrototypeIndexes: 00000000
+    folded: 1
+    textures: []
+    prefabs:
+    - {fileID: 1581853954815120877, guid: 86c749e3307bddb4f892c0f945eb35d9, type: 3}
+    useMesh: 1
+    density: 3
+    minHeight: 0.1
+    maxHeight: 1.5
+    minWidth: 0.5
+    maxWidth: 1.5
+    holeEdgePadding: 1
+    renderMode: 0
+    useInstancing: 1
+    inspectorInitialized: 1
