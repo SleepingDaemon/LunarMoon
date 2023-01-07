@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public const bool _fpsMode = true;
+    
 
     [SerializeField] private float moveSpeed = 3f;
 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class InHelmetController : MonoBehaviour
 {
     [SerializeField] private Transform _cameraRoot;
-    [SerializeField] private Transform _fpsCam;
+    [SerializeField] private Transform _helmet;
     [SerializeField] private float _upperLimit = -40f;
     [SerializeField] private float _bottomLimit = 70f;
     [SerializeField] private float _leftLimit = -40f;
@@ -17,6 +17,11 @@ public class InHelmetController : MonoBehaviour
     private float _yRot;
 
     private void Awake() => _input = GetComponent<InputManager>();
+
+    private void Start()
+    {
+        transform.rotation = new Quaternion(0, 0, 0, 0);
+    }
 
     private void LateUpdate() => CamMovement();
 
@@ -31,6 +36,6 @@ public class InHelmetController : MonoBehaviour
         _xRot = Mathf.Clamp(_xRot, _upperLimit, _bottomLimit);
         _yRot = Mathf.Clamp(_yRot, _leftLimit, _rightLimit);
 
-        _fpsCam.localRotation = Quaternion.Euler(_xRot, _yRot, 0);
+        _helmet.localRotation = Quaternion.Euler(_xRot, _yRot, 0);
     }
 }

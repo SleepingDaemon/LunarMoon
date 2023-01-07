@@ -5,9 +5,13 @@ using UnityEngine;
 
 public class PlayerLook : MonoBehaviour
 {
+    public static bool FPSMode = true;
+
     [SerializeField] private CinemachineVirtualCameraBase fpsCam;
+    [SerializeField] private CinemachineVirtualCameraBase tpsCam;
     [SerializeField] private float _mouseSensitivity;
     [SerializeField] private Transform _fpsCamAnchor;
+    [SerializeField] private Transform _tpsCamAnchor;
     [SerializeField] private float _upperLimit = -40f;
     [SerializeField] private float _bottomLimit = 70f;
 
@@ -26,16 +30,23 @@ public class PlayerLook : MonoBehaviour
 
     private void Update()
     {
+        ToggleMode();
         OnCamMovement();
 
-        fpsCam.transform.localRotation = Quaternion.Euler(_xRot, 0, 0);
-        transform.rotation = Quaternion.Euler(0, _yRot, 0);
+        if (FPSMode)
+        {
+            fpsCam.transform.localRotation = Quaternion.Euler(_xRot, 0, 0);
+            transform.rotation = Quaternion.Euler(0, _yRot, 0);
+        }
     }
 
     private void OnCamMovement()
     {
-        if (PlayerMovement._fpsMode)
+        if (FPSMode)
         {
+            fpsCam.enabled = true;
+            tpsCam.enabled = false;
+
             _mouseX = _input.Look.x;
             _mouseY = _input.Look.y;
 
@@ -47,9 +58,18 @@ public class PlayerLook : MonoBehaviour
             //_xRot -= mouseY * _mouseSensitivity * Time.smoothDeltaTime;
             _xRot = Mathf.Clamp(_xRot, _upperLimit, _bottomLimit);
         }
-        else
+        else if(!FPSMode)
         {
-            //tps cam logic
+            fpsCam.enabled = false;
+            tpsCam.enabled = true;
+
+            //tpsCam.transform.position = _tpsCamAnchor.position;
         }
+    }
+
+    public void ToggleMode()
+    {
+        if(_input.Switch)
+            FPSMode = !FPSMode;
     }
 }
