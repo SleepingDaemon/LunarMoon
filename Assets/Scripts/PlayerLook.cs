@@ -18,6 +18,7 @@ public class PlayerLook : MonoBehaviour
 
 
     private InputManager _input;
+    private InputAction _mouse;
     private float _xRot;
     private float _yRot;
     private float mult = 0.01f;
@@ -25,10 +26,35 @@ public class PlayerLook : MonoBehaviour
     private float _mouseY;
     private Vector2 _mousePosFPS;
 
+    public void OnLookFPS(InputValue value)
+    {
+        //if (FPSMode)
+        //{
+        //    Vector2 mouseDelta = context.ReadValue<Vector2>();
+
+        //    fpsCam.transform.Rotate(Vector3.up * mouseDelta.x * _mouseSensitivity * Time.deltaTime);
+        //    _xRot -= mouseDelta.y * _mouseSensitivity * Time.deltaTime;
+        //    _xRot = Mathf.Clamp(_xRot, _upperLimit, _bottomLimit);
+        //    fpsCam.transform.localRotation = Quaternion.Euler(_xRot, 0f, 0f);
+        //    transform.rotation = Quaternion.Euler(0, _yRot, 0);
+        //}
+    }
+
     private void Start() => _input = GetComponent<InputManager>();
 
     private void Update()
     {
+        //if (FPSMode)
+        //{
+        //    fpsCam.enabled = true;
+        //    tpsCam.enabled = false;
+        //}
+        //else
+        //{
+        //    fpsCam.enabled = false;
+        //    tpsCam.enabled = true;
+        //}
+
         _mousePosFPS = Mouse.current.delta.ReadValue();
 
         OnCamMovement();
@@ -47,8 +73,8 @@ public class PlayerLook : MonoBehaviour
             fpsCam.enabled = true;
             tpsCam.enabled = false;
 
-            _mouseX = _mousePosFPS.x;
-            _mouseY = _mousePosFPS.y;
+            _mouseX = _input.LookFPS.x;
+            _mouseY = _input.LookFPS.y;
 
             fpsCam.transform.position = _fpsCamAnchor.position;
 
@@ -58,7 +84,7 @@ public class PlayerLook : MonoBehaviour
             //_xRot -= mouseY * _mouseSensitivity * Time.smoothDeltaTime;
             _xRot = Mathf.Clamp(_xRot, _upperLimit, _bottomLimit);
         }
-        else if(!FPSMode)
+        else if (!FPSMode)
         {
             fpsCam.enabled = false;
             tpsCam.enabled = true;

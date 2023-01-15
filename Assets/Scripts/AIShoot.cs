@@ -37,7 +37,7 @@ public class AIShoot : MonoBehaviour
         var enemy = blaze.enemyToAttack.gameObject;
 
         var enemyAI = enemy.GetComponent<BlazeAI>();
-        if(enemyAI.enemyToAttack == null)
+        if(enemyAI != null && enemyAI.enemyToAttack == null)
             enemyAI.SetTarget(this.gameObject, false, true);
         //if (enemyAI.enemyToAttack != null)
         //{

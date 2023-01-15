@@ -16,18 +16,32 @@ public class Character : MonoBehaviour, IDamageable
 
     public void OnDamage(float amount)
     {
-        _blazeAI.Hit(gameObject, true);
+        if(_blazeAI != null)
+            _blazeAI.Hit(gameObject, true);
+
         _health -= amount;
 
         if (_health <= 0)
         {
-            OnDeath();
+            _health = 0;
+
+            if(_blazeAI == null)
+                OnPlayerDeath();
+
+            if(_blazeAI != null)
+                OnAIDeath();
         }
     }
 
-    public void OnDeath()
+    public void OnAIDeath()
     {
         _blazeAI.Death(true, _blazeAI.enemyToAttack);
         _col.enabled = false;
+        Debug.Log(gameObject.name + " died");
+    }
+
+    public void OnPlayerDeath()
+    {
+        Debug.Log("Player Died");
     }
 }
