@@ -21,6 +21,9 @@ TagManager:
   - RedEnemy
   - Enemy1
   - Enemy2
+  - CinemachineTarget
+  - Parasite
+  - SecurityBot
   layers:
   - Default
   - TransparentFX
@@ -31,8 +34,8 @@ TagManager:
   - Cover
   - 
   - Enemy
-  - 
-  - 
+  - SecurityBot
+  - Parasite
   - PostProcessing
   - Obstacle
   - Ground

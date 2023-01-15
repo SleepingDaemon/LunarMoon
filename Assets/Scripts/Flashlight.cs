@@ -1,14 +1,20 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Flashlight : MonoBehaviour
 {
-    [SerializeField] private Light flashLight;
-    [SerializeField] private bool isOn = false;
-    private InputManager _input;
+    [SerializeField] private Light flashLight = null;
+    [SerializeField] private bool isOn = true;
+    [SerializeField] private GameObject helmetCap = null;
+
+    private SkinnedMeshRenderer _helmetRend = null;
+    private Material _lightMat = null;
 
     private void Start()
     {
-        _input = GetComponentInParent<InputManager>();
+        _helmetRend = helmetCap.GetComponent<SkinnedMeshRenderer>();
+        _lightMat = _helmetRend.materials[1];
+        _lightMat.SetFloat("_EmissiveExposureWeight", 1);
     }
 
     private void Update()
@@ -16,20 +22,18 @@ public class Flashlight : MonoBehaviour
         if (isOn)
         {
             flashLight.enabled = true;
+            _lightMat.SetFloat("_EmissiveExposureWeight", 0);
         }
         else
         {
             flashLight.enabled = false;
+            _lightMat.SetFloat("_EmissiveExposureWeight", 1);
         }
-
-        Toggle();
     }
 
-    private void Toggle()
+    private void OnFlashlight(InputValue value)
     {
-        if(_input.FlashLight)
-        {
+        if (value.isPressed)
             isOn = !isOn;
-        }
     }
 }

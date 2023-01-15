@@ -7,45 +7,128 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    [SerializeField] private PlayerInput PlayerInput;
+    [SerializeField] private PlayerInput _playerInput;
+    public PlayerInput PlayerInput { get { return _playerInput; } set { _playerInput = value; } }
+    public InputActionMap CurrentMap { get; set; }
 
-    public Vector2 Move { get; set; }
-    public Vector2 Look { get; set; }
-    public bool Switch { get; set; }
-    public bool FlashLight { get; set; }
+    public Vector2 Move;
+    public Vector2 Look;
+    public Vector2 LookFPS;
+    public bool Sprint;
+    public bool POV;
+    public bool Flashlight;
+    public bool Jump;
 
     private InputActionMap _currentMap = null;
     private InputAction _moveAction = null;
     private InputAction _lookAction = null;
-    private InputAction _switchAction = null;
+    private InputAction _lookFPSAction = null;
+    private InputAction _sprintAction = null;
+    private InputAction _povAction = null;
     private InputAction _flashLightAction = null;
+    private InputAction _jumpAction = null;
 
-    private void OnEnable() => _currentMap.Enable();
+    [Header("Movement Settings")]
+    public bool analogMovement;
 
-    private void OnDisable() => _currentMap.Disable();
+    [Header("Mouse Cursor Settings")]
+    public bool cursorLocked = true;
+    public bool cursorInputForLook = true;
+
+    private void OnEnable()
+    {
+        _currentMap.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _currentMap.Disable();
+    }
 
     private void Awake()
     {
-        _currentMap = PlayerInput.currentActionMap;
+        _currentMap = _playerInput.currentActionMap;
         _moveAction = _currentMap.FindAction("Move");
         _lookAction = _currentMap.FindAction("Look");
-        _switchAction = _currentMap.FindAction("Switch");
-        _flashLightAction = _currentMap.FindAction("FlashLight");
-
-        _moveAction.performed += OnMove;
-        _lookAction.performed += OnLook;
-        _switchAction.performed += OnSwitch;
-        _flashLightAction.performed += OnFlashLight;
-
-        _moveAction.canceled += OnMove;
-        _lookAction.canceled += OnLook;
-        _switchAction.canceled += OnSwitch;
-        _flashLightAction.canceled += OnFlashLight;
+        _lookFPSAction = _currentMap.FindAction("LookFPS");
+        _sprintAction = _currentMap.FindAction("Sprint");
+        _povAction = _currentMap.FindAction("POV");
+        _flashLightAction = _currentMap.FindAction("Flashlight");
+        _jumpAction = _currentMap.FindAction("Jump");
     }
 
-    private void OnLook(InputAction.CallbackContext context) => Look = context.ReadValue<Vector2>();
+    public void OnLook(InputValue value)
+    {
+        if (cursorInputForLook)
+        {
+            LookInput(value.Get<Vector2>());
+        }
+    }
+    public void LookInput(Vector2 newFloat)
+    {
+        Look = newFloat;
+    }
+    public void OnLookFPS(InputValue value)
+    {
+        if (cursorInputForLook)
+        {
+            LookFPSInput(value.Get<Vector2>());
+        }
+    }
+    public void LookFPSInput(Vector2 newFloat)
+    {
+        LookFPS = newFloat;
+    }
 
-    private void OnMove(InputAction.CallbackContext context) => Move = context.ReadValue<Vector2>();
-    private void OnSwitch(InputAction.CallbackContext context) => Switch = context.ReadValueAsButton();
-    private void OnFlashLight(InputAction.CallbackContext context) => FlashLight = context.ReadValueAsButton();
+    public void OnMove(InputValue value)
+    {
+        MoveInput(value.Get<Vector2>());
+    }
+    public void MoveInput(Vector2 newFloat)
+    {
+        Move = newFloat;
+    }
+    public void OnPOV(InputValue value)
+    {
+        POVInput(value.isPressed);
+    }
+    public void POVInput(bool newBool)
+    {
+        POV = newBool;
+    }
+    //public void OnFlashlight(InputValue value)
+    //{
+    //    FlashlightInput(value.isPressed);
+    //}
+    public void FlashlightInput(bool newBool)
+    {
+        Flashlight = newBool;
+    }
+    public void OnJump(InputValue value)
+    {
+        JumpInput(value.isPressed);
+    }
+    public void JumpInput(bool newBool)
+    {
+        Jump = newBool;
+    }
+    public void OnSprint(InputValue value) 
+    {
+        SprintInput(value.isPressed);
+    }
+    public void SprintInput(bool newBool) 
+    {
+        Sprint = newBool;
+    }
+
+
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        SetCursorState(cursorLocked);
+    }
+
+    private void SetCursorState(bool newState)
+    {
+        Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+    }
 }

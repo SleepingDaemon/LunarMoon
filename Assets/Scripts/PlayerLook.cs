@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerLook : MonoBehaviour
 {
@@ -22,15 +23,14 @@ public class PlayerLook : MonoBehaviour
     private float mult = 0.01f;
     private float _mouseX;
     private float _mouseY;
+    private Vector2 _mousePosFPS;
 
-    private void Start()
-    {
-        _input = GetComponent<InputManager>();
-    }
+    private void Start() => _input = GetComponent<InputManager>();
 
     private void Update()
     {
-        ToggleMode();
+        _mousePosFPS = Mouse.current.delta.ReadValue();
+
         OnCamMovement();
 
         if (FPSMode)
@@ -47,8 +47,8 @@ public class PlayerLook : MonoBehaviour
             fpsCam.enabled = true;
             tpsCam.enabled = false;
 
-            _mouseX = _input.Look.x;
-            _mouseY = _input.Look.y;
+            _mouseX = _mousePosFPS.x;
+            _mouseY = _mousePosFPS.y;
 
             fpsCam.transform.position = _fpsCamAnchor.position;
 
@@ -67,9 +67,9 @@ public class PlayerLook : MonoBehaviour
         }
     }
 
-    public void ToggleMode()
+    public void OnPOV(InputValue value)
     {
-        if(_input.Switch)
+        if(value.isPressed)
             FPSMode = !FPSMode;
     }
 }
